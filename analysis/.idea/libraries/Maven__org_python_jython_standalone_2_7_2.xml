@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.python:jython-standalone:2.7.2">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/maven/apache-maven-3.5.4/repository/org/python/jython-standalone/2.7.2/jython-standalone-2.7.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$APPLICATION_HOME_DIR$/maven/apache-maven-3.5.4/repository/org/python/jython-standalone/2.7.2/jython-standalone-2.7.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$APPLICATION_HOME_DIR$/maven/apache-maven-3.5.4/repository/org/python/jython-standalone/2.7.2/jython-standalone-2.7.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

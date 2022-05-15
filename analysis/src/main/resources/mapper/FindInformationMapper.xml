@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jlysh.analysis.pojo.mapper.FindInformationMapper">
+    <resultMap id="rm" type="com.jlysh.analysis.pojo.beans.Topic">
+        <result property="article" jdbcType="VARCHAR" column="article"/>
+        <result property="discuss" jdbcType="INTEGER" column="discuss"/>
+        <result property="insertTime" jdbcType="VARCHAR" column="insertTime"/>
+        <result property="origin" jdbcType="VARCHAR" column="origin"/>
+        <result property="person_id" jdbcType="VARCHAR" column="person_id"/>
+        <result property="time" jdbcType="VARCHAR" column="time"/>
+        <result property="transmit" jdbcType="INTEGER" column="transmit"/>
+        <result property="net_name" jdbcType="VARCHAR" column="net_name"/>
+        <result property="sex" jdbcType="VARCHAR" column="sex"/>
+        <result property="area" jdbcType="VARCHAR" column="area"/>
+        <result property="transfrom" jdbcType="VARCHAR" column="transfrom"/>
+        <result property="like" jdbcType="VARCHAR" column="like"/>
+    </resultMap>
+    <select id="findInformationFromDataBase" resultMap="rm">
+          SELECT
+                s.article,s.discuss,s.insertTime,s.origin,s.person_id,s.time,s.transmit,s.net_name,s.sex,s.area,s.transfrom,s.like
+          FROM
+                sys_corpus AS s
+
+          ORDER BY
+                s.time
+          desc
+          LIMIT
+                100
+
+    </select>
+</mapper>

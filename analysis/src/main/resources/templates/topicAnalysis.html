@@ -1,0 +1,469 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关键词舆情分析</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/map.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="../static/js/highmaps.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="../static/layui/layui.js"></script>
+    <script type="text/javascript" src="../static/js/exporting.js"></script>
+    <script src="https://data.jianshukeji.com/geochina/china.js"></script>
+    <script type="text/javascript" src="../static/js/wordcloud2.js"></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../static/css/blog.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+<ul class="layui-nav layui-bg-cyan" >
+    <li class="layui-nav-item layui-this"><a href="/main">首页</a></li>
+    <li class="layui-nav-item"><a href="/resume">个人主页</a></li>
+    <li class="layui-nav-item"><a href="/personal">综合舆情分析</a></li>
+    <li class="layui-nav-item"><a href="/topic">关键词舆情分析</a></li>
+    <!--id="test01-->
+    <li class="layui-nav-item layui-col-md-offset7">
+        <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">${user_info.name}</a>
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:;">个人中心</a></dd>
+            <dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="javascript:;">安全管理</a></dd>
+            <dd><a href="/destorySession">退出</a></dd>
+        </dl>
+    </li>
+</ul>
+
+
+
+
+    <br><br>
+
+<div class="container">
+
+    <div class="row mb-2">
+    <div class="col-md-12">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+
+            <h1 class="display-4 font-italic">关键词舆情分析报告</h1>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!--BootStrap表格展示-->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+
+                    <!--<div style="height: 490px;overflow: auto;">-->
+                    <table class="table table-striped table-responsive table text-nowrap" style="height: 490px;overflow: auto;">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>发表内容</th>
+                            <th>发表时间</th>
+                            <th>性别</th>
+                            <th>地区</th>
+                            <th>姓名</th>
+                            <th>情感倾向</th>
+                            <!--<th>关键词</th>-->
+                        </tr>
+                        </thead>
+
+                        <tbody id="table_info">
+                        </tbody >
+                    </table>
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--情感倾向-饼状图-积极/消极-->
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <!--<text x="250" text-anchor="middle" style="color:#333333;font-size:18px;fill:#333333;text-align: center">情感倾向</text>-->
+                    <div id="chart_emotion" style="min-width:500px;height:500px;"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--男女比例分部-饼状图-->
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <!--<text x="250" text-anchor="middle" style="color:#333333;font-size:18px;fill:#333333;text-align: center">性别比例</text>-->
+                    <div id="chart_sex" style="min-width:500px;height:500px"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--言论地点分布-饼状图-->
+        <div class="col-md-6">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <!--<text x="250" text-anchor="middle" style="color:#333333;font-size:18px;fill:#333333;text-align: center">言论分布</text>-->
+                    <div id="chart_area" style="min-width:500px;height:500px"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--折线图-->
+    <!--<div class="row mb-2">-->
+    <!--<div class="col-md-12">-->
+    <!--<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">-->
+    <!--<div class="col p-4 d-flex flex-column position-static">-->
+
+    <!--<div id="linear" style="max-width:1000px;height:400px"></div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--地图-->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <!--<text x="250" text-anchor="middle" style="color:#333333;font-size:18px;fill:#333333;text-align: center">地图</text>-->
+                    <div id="map_area" style="width:1050px;height: 500px;"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--词云图-->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+
+                    <text x="250" text-anchor="middle" style="color:#333333;font-size:18px;fill:#333333;text-align: center">关键词云</text>
+                    <div id="cloud" style="width:1050px;height: 500px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(
+        function () {
+            // 构造一个json数据以发送给后端
+            var json_data = localStorage.getItem("temp");
+            // var json_data = JSON.stringify(data);
+            console.log(json_data);
+            // ajax发送数据给后端
+            $.post("/topicAnalysisData",
+                json_data,
+                function (data) {
+                    var json_data = JSON.parse(data);
+                    renderTableList(json_data); //表格展示
+                    renderEmoRationList(json_data); //情绪倾向
+                    renderAreaRatioList(json_data); // 地区分布
+                    renderSexRatioList(json_data); // 性别比例
+                    renderMapAreaRatioList(json_data); // 言论分布
+                    renderWordCloud(json_data); //词云图
+                }
+            );
+        }
+    );
+</script>
+
+
+<script>
+
+    //词云图
+    function renderWordCloud(json_data) {
+        // var list = [['foo', 12], ['bar', 6], ['你好', 59], ['谁在说话', 90]];
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var word = json_data.wordCloudList;
+
+        WordCloud($("#cloud")[0], { list: word } );
+    }
+</script>
+
+
+<script>
+    layui.use('element', function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+
+<!--一、情感比例-饼状图-->
+<script>
+    function renderEmoRationList(json_data) {
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var data = json_data.emoRationList;
+
+
+        Highcharts.chart('chart_emotion', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: '情感比例'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            credits: {
+                enabled:false
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: data
+            }]
+        });
+    }
+</script>
+
+<!--二、性别比例-饼状图-->
+<script>
+    function renderSexRatioList(json_data) {
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var data = json_data.sexRatioList;
+        Highcharts.chart('chart_sex', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: '性别比例'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            credits: {
+                enabled:false
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: data
+            }]
+        });
+    }
+</script>
+
+<!--三、地区分布-饼状图-->
+<script>
+    function renderAreaRatioList(json_data) {
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var data = json_data.areaRatioList;
+
+
+        Highcharts.chart('chart_area', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: '发布地点分布'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: data
+            }],
+            credits: {
+                enabled:false
+            }
+        });
+    }
+</script>
+
+
+
+
+
+<!--五、言论发布地点分布-地图-->
+<script>
+    function renderMapAreaRatioList(json_data) {
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var data = json_data.mapRatioList;
+
+        var map = new Highcharts.Map('map_area', {
+            title: {
+                text: '言论发布地点统计'
+            },
+            colorAxis: {
+                min: 0,
+                minColor: 'rgb(255,255,255)',
+                maxColor: '#006cee'
+            },
+            credits: {
+                enabled:false
+            },
+            series: [{
+                data: data,
+                name: '言论数量',
+                mapData: Highcharts.maps['cn/china'],
+                joinBy: 'name' // 根据 name 属性进行关联
+            }]
+        });
+    }
+</script>
+
+<!--六、BootStrap表格呈现-->
+<script>
+    function renderTableList(json_data) {
+        // js接收后端发来的数据
+        // var val = '{{ perlist|tojson }}';
+        // var json_data = JSON.parse(val);
+        var obj = json_data.renderTableList;
+        // var obj = eval("("+ jsonData +")");
+        var appendPos = $("#table_info");
+
+        for(var i=0; i<obj.length;i++) {
+
+            var tr = document.createElement('tr');
+            var td_id = document.createElement('td');
+            var td_article = document.createElement('td');
+            var td_time = document.createElement('td');
+            var td_sex = document.createElement('td');
+            var td_area = document.createElement('td');
+            var td_name = document.createElement('td');
+            var td_emo = document.createElement('td');
+            var td_keyword = document.createElement('td');
+            td_article.innerHTML = obj[i].article;
+            td_time.innerHTML = obj[i].time;
+            td_sex.innerHTML = obj[i].sex;
+            td_area.innerHTML = obj[i].area;
+            td_name.innerHTML = obj[i].net_name;
+            td_emo.innerHTML =  parseInt(obj[i].emotion) === 1?"积极":"消极";
+            // td_keyword.innerHTML = obj[i].keyword;
+            td_id.innerHTML = i+1;
+            if(td_emo.innerHTML === "积极"){
+                tr.className="success";
+            }else{
+                tr.className="danger";
+            }
+            tr.append(td_id);
+            tr.append(td_article);
+            tr.append(td_time);
+            tr.append(td_sex);
+            tr.append(td_area);
+            tr.append(td_name);
+            tr.append(td_emo);
+            appendPos.append(tr);
+        }
+
+
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--按关键词查询-->
+<mapper namespace="com.jlysh.analysis.pojo.mapper.FindTopicMapper">
+    <resultMap id="rm" type="com.jlysh.analysis.pojo.beans.Topic">
+        <result property="article" jdbcType="VARCHAR" column="article"></result>
+        <result property="discuss" jdbcType="INTEGER" column="discuss"></result>
+        <result property="insertTime" jdbcType="TIMESTAMP" column="insertTime"></result>
+        <result property="origin" jdbcType="VARCHAR" column="origin"></result>
+        <result property="person_id" jdbcType="VARCHAR" column="person_id"></result>
+        <result property="time" jdbcType="TIMESTAMP" column="time"></result>
+        <result property="net_name" jdbcType="VARCHAR" column="net_name"></result>
+        <result property="sex" jdbcType="VARCHAR" column="sex"></result>
+        <result property="area" jdbcType="VARCHAR" column="area"></result>
+        <result property="keyword" jdbcType="VARCHAR" column="keyword"></result>
+    </resultMap>
+    <select id="findTopicFromDataBase" resultMap="rm">
+          SELECT
+                s.article,s.discuss,s.insertTime,s.origin,s.person_id,s.time,s.net_name,s.sex,s.area,s.keyword
+          FROM
+                sys_corpus_keyword AS s
+
+          WHERE
+                keyword like '%${topic}%'
+
+          ORDER BY
+                s.time
+          desc
+          LIMIT
+                100
+    </select>
+</mapper>

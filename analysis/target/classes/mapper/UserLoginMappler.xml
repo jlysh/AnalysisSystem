@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jlysh.analysis.pojo.mapper.UserLoginMappler">
+    <resultMap id="rm" type="com.jlysh.analysis.pojo.beans.UserInfo">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="num" jdbcType="VARCHAR" column="num"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>
+        <result property="email" jdbcType="VARCHAR" column="email"/>
+        <result property="phone" jdbcType="VARCHAR" column="phone"/>
+    </resultMap>
+
+    <select id="fetchFromDatabase" resultType="com.jlysh.analysis.pojo.beans.UserInfo">
+        SELECT
+              num,name,pwd,email,phone,flag
+        FROM
+              sys_user
+        WHERE
+              num=#{num}
+    </select>
+</mapper>
